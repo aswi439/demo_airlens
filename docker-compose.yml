@@ -1,0 +1,47 @@
+services:
+  backend:
+    # This image also builds and serves the React operator console at
+    # http://localhost:8000/console (see Dockerfile.backend). The console is
+    # same-origin with the API, so it needs no CORS entry — ALLOWED_ORIGINS
+    # below stays empty unless an external dashboard origin is added.
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    environment:
+      # The Streamlit dashboard that used :8501 is retired; no extra origins.
+      - ALLOWED_ORIGINS=
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c",
+             "import httpx; httpx.get('http://localhost:8000/api/v1/health').raise_for_status()"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - aqi_net
+
+  # frontend service removed. The React dashboard (webapp/) deploys to Vercel
+  # (see vercel.json); the Streamlit prototype it replaced was retired, so
+  # there is nothing left to run on :8501.
+
+  redis:
+    # Removed. Nothing in the backend ever connected to it: caching is an
+    # in-process TTLCache (services/realtime_service.py) and slowapi's rate
+    # limiter is constructed without a storage_uri, so it is in-memory too.
+    # The service only published an unauthenticated 6379 on the host for no
+    # benefit. If the cache is ever moved out of process, restore it here AND
+    # give the limiter a storage_uri, then --workers can be raised above 1.
+    profiles: ["unused"]
+    image: redis:7-alpine
+    restart: unless-stopped
+    networks:
+      - aqi_net
+    command: redis-server --save 60 1 --loglevel warning
+
+networks:
+  aqi_net:
+    driver: bridge

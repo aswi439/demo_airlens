@@ -1,0 +1,101 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Secrets — NEVER commit
+.env
+*.env
+*.env.local
+!.env.example
+aut.json
+cit.json
+
+# Local runtime output
+*.log
+
+# Local signing material
+backend/app/artifacts/jwt_secret.key
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# AI assistants / agent local state (never commit AI watermarks)
+.claude/
+.claude.json
+CLAUDE.md
+.freebuff/
+.codebuff/
+.cursor/
+.cursorrules
+.windsurf/
+.codeium/
+.aider*
+.gemini/
+GEMINI.md
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Node / Webapp
+node_modules/
+webapp/node_modules/
+.npm/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Testing & Cache
+.pytest_cache/
+.coverage
+htmlcov/
+.mypy_cache/
+.ruff_cache/
+
+# Zip Archives
+*.zip
+
+# Temporary probe exports
+*.csv.gz
+
+# Local auth database (real user rows - never commit)
+backend/app/data/
+
+# Data / model artefacts
+data/raw/
+archive/
+*.pkl
+*.h5
+*.nc
+*.db
+
+.vercel
+
+# FIRMS raw response cache (re-fetchable via training/fetch_firms.py) and HPO pool (rebuildable via training/hpo.py)
+llm/model/training/data/firms_cache/
+llm/model/training/data/hpo_pool.npz
+
+# Safety nets - secrets & regenerable local artefacts
+*.key
+*.pem
+*.pfx
+*.p12
+package_project.bat
+project_summary.txt
+
+# SIH submission documents (kept local-only, never pushed)
+airlens_submission/

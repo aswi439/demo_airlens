@@ -1,0 +1,347 @@
+/* ==========================================================================
+   Atmospheric Dynamics — Vertical One-by-One Sequential Layout & Design System
+   ========================================================================== */
+
+.ad-page {
+  min-height: 100vh;
+  background-color: var(--abyss, #090d16);
+  color: var(--bone, #f1f5f9);
+  padding-top: 4.5rem;
+}
+
+.ad-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 1.25rem 1.5rem 4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+
+/* Card Containers */
+.ad-card {
+  background: rgba(15, 23, 42, 0.82);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(51, 65, 85, 0.85);
+  border-radius: 1.25rem;
+  padding: 1.75rem 2rem;
+  box-shadow: 0 16px 36px -8px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.ad-card:hover {
+  border-color: rgba(56, 189, 248, 0.35);
+  box-shadow: 0 20px 45px -10px rgba(0, 0, 0, 0.55), 0 0 25px rgba(56, 189, 248, 0.06);
+}
+
+/* Header & Badges */
+.ad-section-head {
+  margin-bottom: 0.85rem;
+}
+
+.ad-module-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--sans);
+  font-size: 0.725rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #38bdf8;
+  margin-bottom: 0.35rem;
+}
+
+.ad-module-title {
+  font-family: var(--sans);
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: #f8fafc;
+  line-height: 1.25;
+  margin: 0 0 0.35rem;
+}
+
+.ad-module-subtitle {
+  font-family: var(--sans);
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: #94a3b8;
+  max-width: 85ch;
+  margin: 0;
+}
+
+/* Ensure any legacy .section__h / .section__lede in .ad-page matches cleanly */
+.ad-page .section__head {
+  margin-bottom: 0.85rem;
+}
+
+.ad-page .section__h {
+  font-family: var(--sans) !important;
+  font-size: 1.35rem !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.02em !important;
+  color: #f8fafc !important;
+  line-height: 1.25 !important;
+  max-width: none !important;
+  margin: 0 0 0.35rem !important;
+}
+
+.ad-page .section__lede {
+  font-family: var(--sans) !important;
+  font-size: 0.875rem !important;
+  line-height: 1.5 !important;
+  color: #94a3b8 !important;
+  max-width: 85ch !important;
+  margin: 0 !important;
+}
+
+.ad-page .eyebrow {
+  font-family: var(--sans) !important;
+  font-size: 0.725rem !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+  color: #38bdf8 !important;
+  margin: 0 0 0.35rem !important;
+}
+
+.ad-step-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  background: rgba(56, 189, 248, 0.12);
+  color: #38bdf8;
+  border: 1px solid rgba(56, 189, 248, 0.28);
+}
+
+.ad-card-title {
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: #f8fafc;
+  letter-spacing: -0.015em;
+  margin-top: 0.45rem;
+}
+
+.ad-card-subtitle {
+  font-size: 0.875rem;
+  color: #94a3b8;
+  line-height: 1.5;
+  margin-top: 0.35rem;
+  max-width: 95ch;
+}
+
+/* Scrub Controller Strip */
+.ad-scrub-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  background: rgba(30, 41, 59, 0.65);
+  border: 1px solid rgba(51, 65, 85, 0.85);
+  border-radius: 1rem;
+  padding: 0.85rem 1.25rem;
+}
+
+.ad-scrub-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.85rem;
+  border-radius: 0.5rem;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  background: rgba(15, 23, 42, 0.8);
+  border: 1px solid rgba(71, 85, 105, 0.6);
+  color: #e2e8f0;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
+.ad-scrub-btn:hover {
+  background: rgba(56, 189, 248, 0.15);
+  border-color: rgba(56, 189, 248, 0.4);
+  color: #38bdf8;
+}
+
+.ad-scrub-btn--active {
+  background: #0284c7;
+  border-color: #38bdf8;
+  color: #ffffff;
+}
+
+/* Legend Pills */
+.ad-legend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem 1rem;
+  margin: 1.25rem 0 1rem;
+  padding-bottom: 0.85rem;
+  border-bottom: 1px solid rgba(51, 65, 85, 0.5);
+}
+
+.ad-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-family: var(--sans);
+  font-size: 0.775rem;
+  font-weight: 500;
+  color: #cbd5e1;
+}
+
+.ad-legend-dot {
+  width: 0.65rem;
+  height: 0.65rem;
+  border-radius: 0.2rem;
+  flex-shrink: 0;
+}
+
+/* Metric Cards for Inversion */
+.ad-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  margin-top: 1.25rem;
+}
+
+.ad-stat-box {
+  background: rgba(15, 23, 42, 0.65);
+  border: 1px solid rgba(51, 65, 85, 0.7);
+  border-radius: 0.85rem;
+  padding: 1rem 1.15rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.ad-stat-label {
+  font-family: var(--sans);
+  font-size: 0.725rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #94a3b8;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.ad-stat-value {
+  font-family: var(--mono);
+  font-size: 1.45rem;
+  font-weight: 700;
+  color: #f8fafc;
+  line-height: 1.25;
+}
+
+.ad-stat-sub {
+  font-family: var(--sans);
+  font-size: 0.725rem;
+  color: #64748b;
+  margin-top: 0.2rem;
+  line-height: 1.35;
+}
+
+/* Coupling Loop 5-Stage Process Flow */
+.ad-flow-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 0.85rem;
+  margin: 1.25rem 0;
+  position: relative;
+}
+
+.ad-flow-step {
+  background: rgba(15, 23, 42, 0.75);
+  border: 1px solid rgba(51, 65, 85, 0.75);
+  border-radius: 0.85rem;
+  padding: 1.1rem 1.15rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.ad-flow-step:hover {
+  border-color: rgba(56, 189, 248, 0.45);
+  transform: translateY(-2px);
+}
+
+.ad-flow-step-num {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #38bdf8;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.ad-flow-step-title {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #e2e8f0;
+}
+
+.ad-flow-step-val {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #ffffff;
+  display: flex;
+  align-items: baseline;
+  gap: 0.35rem;
+}
+
+.ad-flow-step-unit {
+  font-size: 0.775rem;
+  font-weight: 400;
+  color: #94a3b8;
+  font-style: normal;
+}
+
+.ad-flow-step-desc {
+  font-size: 0.725rem;
+  color: #94a3b8;
+  line-height: 1.4;
+  margin-top: 0.2rem;
+}
+
+/* Callout Info Box */
+.ad-callout {
+  display: flex;
+  gap: 0.85rem;
+  padding: 1rem 1.25rem;
+  border-radius: 0.75rem;
+  background: rgba(14, 165, 233, 0.08);
+  border: 1px solid rgba(14, 165, 233, 0.25);
+  color: #e0f2fe;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  margin-top: 1rem;
+}
+
+.ad-callout-icon {
+  flex-shrink: 0;
+  color: #38bdf8;
+  margin-top: 0.15rem;
+}
+
+/* Ensure full-width responsive scaling without arbitrary height constraints */
+.inv__chart svg,
+.atmos__stage svg.chart {
+  width: 100% !important;
+  max-width: 100% !important;
+  max-height: none !important;
+  height: auto !important;
+  display: block;
+}
+
