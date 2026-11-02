@@ -66,9 +66,9 @@ class Settings(BaseSettings):
 
     openaq_max_reading_age_hours: float = 24.0
 
-    supabase_url: str = ""
-    supabase_key: str = ""
-    supabase_anon_key: str = ""
+    supabase_url: str = "https://ozaxpjkmubtnotwiltfc.supabase.co"
+    supabase_key: str = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im96YXhwamttdWJ0bm90d2lsdGZjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ3MjEzMjAsImV4cCI6MjEwMDI5NzMyMH0.F8I1hE-y9oG4D-rtJr1Efs8dmjF814NqRg_jx6jieKk"
+    supabase_anon_key: str = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im96YXhwamttdWJ0bm90d2lsdGZjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ3MjEzMjAsImV4cCI6MjEwMDI5NzMyMH0.F8I1hE-y9oG4D-rtJr1Efs8dmjF814NqRg_jx6jieKk"
 
     # Server-only. Enables the periodic Supabase archive sync; never expose it
     # to the frontend (the anon/publishable key is the browser-safe one).
