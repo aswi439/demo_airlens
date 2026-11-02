@@ -1,7 +1,8 @@
-﻿# Large offline machine learning models & training data
+# Large offline machine learning models & training data
 llm/model/station_models/*/
 llm/model/station_models_chronos2/
-llm/model/training/
+llm/model/training/contract_check_*.txt
+llm/model/training/daily_contract_output.txt
 llm/artifacts/
 scripts/
 data/

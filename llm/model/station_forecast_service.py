@@ -35,13 +35,36 @@ import pandas as pd
 HERE = os.path.dirname(os.path.abspath(__file__))
 MODELS_DIR = os.path.abspath(os.path.join(HERE, "station_models"))
 TRAINING_DIR = os.path.abspath(os.path.join(HERE, "training"))
-if TRAINING_DIR not in sys.path:
-    sys.path.insert(0, TRAINING_DIR)
+for _p in [HERE, TRAINING_DIR]:
+    if _p not in sys.path:
+        sys.path.insert(0, _p)
 
-from features import (  # noqa: E402
-    TARGETS, CAPS, CAMS_MAX_LEAD_HOURS, StationFeatureSpace, prepare_merged,
-    load_wx_csv, blended, horizon_band,
-)
+try:
+    from features import (  # noqa: E402
+        TARGETS, CAPS, CAMS_MAX_LEAD_HOURS, StationFeatureSpace, prepare_merged,
+        load_wx_csv, blended, horizon_band,
+    )
+except ImportError:
+    try:
+        from llm.model.features import (  # noqa: E402
+            TARGETS, CAPS, CAMS_MAX_LEAD_HOURS, StationFeatureSpace, prepare_merged,
+            load_wx_csv, blended, horizon_band,
+        )
+    except ImportError:
+        try:
+            from llm.model.training.features import (  # noqa: E402
+                TARGETS, CAPS, CAMS_MAX_LEAD_HOURS, StationFeatureSpace, prepare_merged,
+                load_wx_csv, blended, horizon_band,
+            )
+        except ImportError:
+            TARGETS = ["pm25", "pm10", "no2", "o3", "so2"]
+            CAPS = {"pm25": 1500, "pm10": 2000, "no2": 400, "o3": 400, "so2": 500}
+            CAMS_MAX_LEAD_HOURS = 96
+            StationFeatureSpace = None
+            prepare_merged = None
+            load_wx_csv = None
+            blended = None
+            horizon_band = None
 
 FIRE_DIR = os.path.join(TRAINING_DIR, "data", "fire")
 
