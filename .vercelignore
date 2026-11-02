@@ -1,0 +1,24 @@
+﻿# Large offline machine learning models & training data
+llm/model/station_models/*/
+llm/model/station_models_chronos2/
+llm/model/training/
+llm/artifacts/
+scripts/
+data/
+archive/
+
+# Temporary and packaging artifacts
+*.zip
+*.csv.gz
+*.log
+*.tmp
+*.bak
+package_project.bat
+delhi_ncr_aqi_project*.zip
+
+# Local environments
+.venv/
+venv/
+env/
+.env
+.env.local

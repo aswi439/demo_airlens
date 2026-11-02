@@ -22,19 +22,52 @@ import json
 import logging
 import secrets
 import sqlite3
+import os
+import shutil
 import threading
 import time
 from contextlib import contextmanager
 from pathlib import Path
 from typing import Any, Iterator
 
-_DB_PATH = Path(__file__).resolve().parents[1] / "data" / "users.db"
+logger = logging.getLogger(__name__)
+
+
+def _get_db_path() -> Path:
+    custom_path = os.environ.get("AUTH_DB_PATH")
+    if custom_path:
+        return Path(custom_path)
+
+    # In Vercel or AWS Lambda environments, the filesystem is read-only except /tmp
+    if os.environ.get("VERCEL") or os.environ.get("AWS_LAMBDA_FUNCTION_NAME"):
+        tmp_db = Path("/tmp") / "users.db"
+        packaged_db = Path(__file__).resolve().parents[1] / "data" / "users.db"
+        if not tmp_db.exists() and packaged_db.exists():
+            try:
+                shutil.copy2(packaged_db, tmp_db)
+            except Exception as e:
+                logger.warning(f"Failed to copy packaged users.db to /tmp: {e}")
+        return tmp_db
+
+    default_path = Path(__file__).resolve().parents[1] / "data" / "users.db"
+    try:
+        default_path.parent.mkdir(parents=True, exist_ok=True)
+        return default_path
+    except OSError:
+        tmp_db = Path("/tmp") / "users.db"
+        if not tmp_db.exists() and default_path.exists():
+            try:
+                shutil.copy2(default_path, tmp_db)
+            except Exception:
+                pass
+        return tmp_db
+
+
+_DB_PATH = _get_db_path()
 _PBKDF2_ITERATIONS = 600_000
 # Reentrant: keeps account rows and advisory writes serialized; invite-code
 # operations go to Supabase (invite_store) and never hold this lock.
 _lock = threading.RLock()
-
-logger = logging.getLogger(__name__)
 
 # Strict-enough email shape: one @, a domain with a dot, no spaces/controls.
 import re as _re
@@ -84,10 +117,16 @@ class AuthError(Exception):
 
 @contextmanager
 def _db() -> Iterator[sqlite3.Connection]:
-    _DB_PATH.parent.mkdir(parents=True, exist_ok=True)
+    try:
+        _DB_PATH.parent.mkdir(parents=True, exist_ok=True)
+    except OSError:
+        pass
     conn = sqlite3.connect(_DB_PATH, timeout=10)
     conn.row_factory = sqlite3.Row
-    conn.execute("PRAGMA journal_mode=WAL")
+    try:
+        conn.execute("PRAGMA journal_mode=WAL")
+    except Exception:
+        pass
     try:
         with conn:
             yield conn
@@ -141,8 +180,11 @@ def _init_schema(conn: sqlite3.Connection) -> None:
         conn.execute("ALTER TABLE users ADD COLUMN auth_provider TEXT NOT NULL DEFAULT 'password'")
 
 
-with _db() as _conn:
-    _init_schema(_conn)
+try:
+    with _db() as _conn:
+        _init_schema(_conn)
+except Exception as _exc:
+    logger.warning("Auth DB schema init deferred or failed: %s", _exc)
 
 
 # ── Registration / login ─────────────────────────────────────────────────────

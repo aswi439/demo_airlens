@@ -99,3 +99,4 @@ project_summary.txt
 
 # SIH submission documents (kept local-only, never pushed)
 airlens_submission/
+.env*

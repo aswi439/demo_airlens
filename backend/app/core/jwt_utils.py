@@ -18,6 +18,8 @@ import time
 from pathlib import Path
 from typing import Any
 
+import os
+
 # Signing secret: persisted beside the ML artifacts so sessions survive a
 # backend restart. Generated on first use. For a multi-instance deployment this
 # must move to a shared secret manager — a per-instance key breaks sessions
@@ -26,14 +28,35 @@ _SECRET_PATH = Path(__file__).resolve().parents[1] / "artifacts" / "jwt_secret.k
 
 
 def _load_secret() -> bytes:
+    env_secret = os.environ.get("JWT_SECRET")
+    if env_secret:
+        return env_secret.encode("utf-8")
     if _SECRET_PATH.is_file():
-        return _SECRET_PATH.read_bytes()
+        try:
+            return _SECRET_PATH.read_bytes()
+        except OSError:
+            pass
+    tmp_path = Path("/tmp") / "jwt_secret.key"
+    if tmp_path.is_file():
+        try:
+            return tmp_path.read_bytes()
+        except OSError:
+            pass
     secret = secrets.token_bytes(48)
-    _SECRET_PATH.write_bytes(secret)
     try:
-        _SECRET_PATH.chmod(0o600)
+        _SECRET_PATH.parent.mkdir(parents=True, exist_ok=True)
+        _SECRET_PATH.write_bytes(secret)
+        try:
+            _SECRET_PATH.chmod(0o600)
+        except OSError:
+            pass
+        return secret
     except OSError:
-        pass  # best effort on platforms without POSIX permissions
+        pass
+    try:
+        tmp_path.write_bytes(secret)
+    except OSError:
+        pass
     return secret
 
 
